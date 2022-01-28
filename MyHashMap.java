@@ -1,4 +1,3 @@
-import java.util.Objects;
 public class MyHashMap <K,V>{
 
     private final int DEFAULT_INITIAL_CAPACITY = 16;
@@ -7,13 +6,13 @@ public class MyHashMap <K,V>{
     private  int size;
 
 
-    static class Node{
+    static class Node<K,V>{
        int hash;
-       Object key;
-       Object value;
+       K key;
+       V value;
        Node next;
 
-        Node(int hash,Object key,Object value,Node next){
+        Node(int hash,K key,V value,Node next){
             this.hash = hash;
             this.key = key;
             this.value = value;
@@ -21,7 +20,7 @@ public class MyHashMap <K,V>{
         }
     }
 
-    public int hash(Object key){
+    public int hash(K key){
         int h=31;
         return (key == null) ? 0 : (h =h*17 + key.hashCode());
     }
@@ -40,7 +39,7 @@ public class MyHashMap <K,V>{
     }
 
 
-    public void addEntry(Object key,Object value,int hashValue,int i){
+    public void addEntry(K key,V value,int hashValue,int i){
         // Если согласованная длина массива превышена, расширяем емкость
         if(++size >= table.length * DEFAULT_LOAD_FACTOR){
             Node[] newTable = new Node[table.length *2];
@@ -72,7 +71,7 @@ public class MyHashMap <K,V>{
 
 
 
-    public Object put(Object key, Object value) {
+    public Object put(K key, V value) {
         // Рассчитать хеш-значение ключа
         int hashValue = hash(key);
         // Рассчитать место, где он должен храниться
@@ -91,7 +90,7 @@ public class MyHashMap <K,V>{
         return null;
     }
 
-    public Object get(Object key) {
+    public Object get(K key) {
         // Вычисляем значение хеша на основе хеш-кода объекта
         int hashValue = hash(key);
         // По значению хеша и длине связанного списка получаем индекс позиции вставки
@@ -104,7 +103,7 @@ public class MyHashMap <K,V>{
         return null;
     }
 
-    public boolean remove(Object key){
+    public boolean remove(K key){
         int i = indexFor(hash(key), table.length);
         Node node = table[i];
         if(node == null){
@@ -123,6 +122,19 @@ public class MyHashMap <K,V>{
             }
         }
         return  false;
+    }
+    @Override
+    public String toString(){
+        StringBuilder sb= new StringBuilder("{");
+        for(int i=0; i< table.length; i++){
+            Node temp=table[i];
+            while (temp != null){
+                sb.append(temp.key + ":" + temp.value + ",");
+                temp = temp.next;
+            }
+        }
+        sb.setCharAt(sb.length()-1, '}');
+        return sb.toString();
     }
 }
 
@@ -149,6 +161,8 @@ class MyHashMapTests{
         System.out.println("hashMap.get(\"Alexandr\") = " + hashMap.get("Alexandr"));
         System.out.println("hashMap.size() = " + hashMap.size());
 
+        System.out.println(hashMap);
+
         System.out.println("hashMap.remove(\"Toma\") = " + hashMap.remove("Toma"));
         System.out.println("hashMap.sizeAfterRemove() = " + hashMap.size());
 
@@ -157,3 +171,4 @@ class MyHashMapTests{
         System.out.println("hashMapClear.size() = " + hashMap.size());
     }
 }
+
