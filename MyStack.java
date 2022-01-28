@@ -5,7 +5,6 @@ public class MyStack<T> {
 
     private Object[] stack;
     private int index;
-    private T removeElement;
 
     public MyStack() {
         stack = new Object[INIT_SIZE];
