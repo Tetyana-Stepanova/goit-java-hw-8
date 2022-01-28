@@ -6,7 +6,6 @@ class MyArrayList<T> {
 
     private Object[] data;
     private int index;
-    private T removeElement;
 
     public MyArrayList() {
         data = new Object[INIT_SIZE];
