@@ -5,7 +5,6 @@ public class MyQueue<T> {
 
     private Object[] queue;
     private int index;
-    private T removeElement;
 
     public MyQueue() {
         queue = new Object[INIT_SIZE];
